@@ -1,67 +1,68 @@
 # This is the brain of the whole operation.
 # Let's get this ship going!
-
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I $(LIBFT)
 LIB_FLAGS = -L$(LIBFT) -lft
-RM = rm
-RMF = rm -rf
+RM = rm -rf
 
 LIBFT = ./libft/
+SRC_DIR = src
+BONUS_DIR = src/bonus
+OBJ_DIR = obj
+BONUS_OBJ_DIR = bonus_obj
 
 MAKE_LIBFT = $(MAKE) files -C $(LIBFT)
 FCLEAN_LIBFT = $(MAKE) fclean -C $(LIBFT)
 
 S_NAME = server
 C_NAME = client
+BS_NAME = server_bonus
+BC_NAME = client_bonus
 
-SRC_DIR = src
-BONUS_DIR = src/bonus
-OBJ_DIR = obj
-BONUS_OBJ_DIR = bonus_obj
-
-SRCS =  server.c
-
+SSRCS = server.c
 CSRCS = client.c
+BSSRCS = server_bonus.c
+BCSRCS = client_bonus.c
 
-MFILES = $(addprefix $(SRC_DIR)/, $(SRCS))
-OBJECTS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(MFILES))
+S_OBJECTS = $(addprefix $(OBJ_DIR)/, $(SSRCS:.c=.o))
+C_OBJECTS = $(addprefix $(OBJ_DIR)/, $(CSRCS:.c=.o))
+BS_OBJECTS = $(addprefix $(BONUS_OBJ_DIR)/, $(BSSRCS:.c=.o))
+BC_OBJECTS = $(addprefix $(BONUS_OBJ_DIR)/, $(BCSRCS:.c=.o))
 
-BFILES = $(addprefix $(BONUS_DIR)/, $(CSRCS))
-BONUS_OBJECTS = $(patsubst $(BONUS_DIR)/%.c, $(BONUS_OBJ_DIR)/%.o, $(BFILES))
+all: $(S_NAME) $(C_NAME)
 
-all: $(S_NAME)
+$(S_NAME): $(S_OBJECTS) $(LIBFT)/libft.a
+	$(CC) -o $(S_NAME) $(S_OBJECTS) $(LIB_FLAGS)
 
-$(S_NAME): $(OBJECTS) $(LIBFT)/libft.a
-	$(CC) -o $(S_NAME) $(OBJECTS) $(LIB_FLAGS)
+$(C_NAME): $(C_OBJECTS) $(LIBFT)/libft.a
+	$(CC) -o $(C_NAME) $(C_OBJECTS) $(LIB_FLAGS)
 
-bonus: $(C_NAME)
+bonus: $(BS_NAME) $(BC_NAME)
 
-$(C_NAME): $(BONUS_OBJECTS) $(LIBFT)/libft.a
-	$(CC) -o $(C_NAME) $(BONUS_OBJECTS) $(LIB_FLAGS)
+$(BS_NAME): $(BS_OBJECTS) $(LIBFT)/libft.a
+	$(CC) -o $(BS_NAME) $(BS_OBJECTS) $(LIB_FLAGS)
+
+$(BC_NAME): $(BC_OBJECTS) $(LIBFT)/libft.a
+	$(CC) -o $(BC_NAME) $(BC_OBJECTS) $(LIB_FLAGS)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BONUS_OBJ_DIR)/%.o: $(BONUS_DIR)/%.c
+	@mkdir -p $(BONUS_OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT)/libft.a:
 	$(MAKE_LIBFT)
 
-$(OBJ_DIR)/%.o : 	$(SRC_DIR)/%.c
-					@mkdir -p $(OBJ_DIR)
-					$(CC) $(CFLAGS) -c $^ -o $@
-
-$(BONUS_OBJ_DIR)/%.o :	$(BONUS_DIR)/%.c
-					@mkdir -p $(BONUS_OBJ_DIR)
-					$(CC) $(CFLAGS) -c $^ -o $@
-
 clean:
 	@$(FCLEAN_LIBFT)
-	@$(RMF) $(OBJ_DIR) $(BONUS_OBJ_DIR)
-	@$(RMF) $(BONUS)
+	@$(RM) $(OBJ_DIR) $(BONUS_OBJ_DIR)
 
-fclean:
-	@$(MAKE) clean
-	@$(RMF) $(S_NAME) $(C_NAME)
+fclean: clean
+	@$(RM) $(S_NAME) $(C_NAME) $(BS_NAME) $(BC_NAME)
 
-re:
-	@$(MAKE) fclean
-	@$(MAKE) all
+re: fclean all
 
 .PHONY: all clean fclean re bonus

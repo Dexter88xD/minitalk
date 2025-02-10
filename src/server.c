@@ -6,18 +6,27 @@
 /*   By: sohamdan <sohamdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:19:15 by sohamdan          #+#    #+#             */
-/*   Updated: 2025/02/10 21:54:17 by sohamdan         ###   ########.fr       */
+/*   Updated: 2025/02/10 22:49:55 by sohamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
-#include "libft.h"
+
+void	seperate_clients(char *word, int *counter)
+{
+	write(STDOUT_FILENO, "\n", 1);
+	word = 0;
+	counter = 0;
+}
 
 void	print_it_out(int seg, siginfo_t *info, void *nothing)
 {
-	static char	word = 0;
-	static int	counter = 0;
+	static char	word;
+	static int	counter;
+	static int	old_pid;
 
+	if (old_pid != info->si_pid)
+		seperate_clients(&word, &counter);
 	word = word << 1;
 	if (seg == SIGUSR2)
 		word |= 1;
@@ -33,6 +42,7 @@ void	print_it_out(int seg, siginfo_t *info, void *nothing)
 	}
 	if (info->si_pid > 0)
 		kill(info->si_pid, SIGUSR1);
+	old_pid = info->si_pid;
 	(void)nothing;
 }
 
