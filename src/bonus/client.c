@@ -6,7 +6,7 @@
 /*   By: sohamdan <sohamdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:12:08 by sohamdan          #+#    #+#             */
-/*   Updated: 2025/02/10 21:18:06 by sohamdan         ###   ########.fr       */
+/*   Updated: 2025/02/10 22:02:40 by sohamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	main(int ac, char **av)
 				return (0);
 			i++;
 		}
+		usleep(50);
+		send_message(pid, '\0');
 	}
 	return (0);
 }
