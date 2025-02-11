@@ -6,7 +6,7 @@
 /*   By: sohamdan <sohamdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:19:15 by sohamdan          #+#    #+#             */
-/*   Updated: 2025/02/11 13:36:07 by sohamdan         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:30:43 by sohamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	print_it_out(int seg, siginfo_t *info, void *nothing)
 		if (word)
 			write(STDOUT_FILENO, &word, 1);
 		else
+		{
 			write(STDOUT_FILENO, "\n", 1);
+			kill(info->si_pid, SIGUSR2);
+		}
 		word = 0;
 		counter = 0;
 	}
