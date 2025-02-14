@@ -26,6 +26,7 @@ Minitalk is a project that demonstrates interprocess communication by sending me
 
 ### **2. Bonus Version**
 - Acknowledgment messages for successful transmission.
+- Send messages from a client to a server using UNIX and UNICODE signals.
 
 ---
 ## File Structure
