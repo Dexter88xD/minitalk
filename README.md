@@ -85,13 +85,13 @@ Minitalk is a project that demonstrates interprocess communication by sending me
     │   ├── get_next_line.c
     │   ├── get_next_line_utils.c
     │   └── libft.h
-    └── src/
+    ├── src/
+    │   ├── client.c
+    │   ├── server.c
+    └── bonus/
         ├── client.c
-        ├── server.c
-        └── bonus/
-            ├── client.c
-            ├── client_bonus.c
-            └── server_bonus.c
+        ├── client_bonus.c
+        └── server_bonus.c
 ```
 
 ---

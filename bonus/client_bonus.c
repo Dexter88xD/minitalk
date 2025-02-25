@@ -6,11 +6,11 @@
 /*   By: sohamdan <sohamdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:12:08 by sohamdan          #+#    #+#             */
-/*   Updated: 2025/02/11 13:56:15 by sohamdan         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:20:01 by sohamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minitalk.h"
+#include "minitalk.h"
 
 volatile sig_atomic_t	g_flag = 0;
 

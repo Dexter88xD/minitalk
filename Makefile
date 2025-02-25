@@ -1,20 +1,20 @@
 # This is the brain of the whole operation.
 # Let's get this ship going!
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I $(LIBFT)
+CFLAGS = -Wall -Wextra -Werror -I $(LIBFT) -I.
 LIB_FLAGS = -L$(LIBFT) -lft
 RM = rm -rf
 
 LIBFT = ./libft/
 SRC_DIR = src
-BONUS_DIR = src/bonus
+BONUS_DIR = bonus
 OBJ_DIR = obj
 BONUS_OBJ_DIR = bonus_obj
 
-MAKE_LIBFT = $(MAKE) files -C $(LIBFT)
+MAKE_LIBFT = $(MAKE) -C $(LIBFT)
 FCLEAN_LIBFT = $(MAKE) fclean -C $(LIBFT)
 
-S_NAME = server
+NAME = server
 C_NAME = client
 BS_NAME = server_bonus
 BC_NAME = client_bonus
@@ -29,10 +29,10 @@ C_OBJECTS = $(addprefix $(OBJ_DIR)/, $(CSRCS:.c=.o))
 BS_OBJECTS = $(addprefix $(BONUS_OBJ_DIR)/, $(BSSRCS:.c=.o))
 BC_OBJECTS = $(addprefix $(BONUS_OBJ_DIR)/, $(BCSRCS:.c=.o))
 
-all: $(S_NAME) $(C_NAME)
+all: $(NAME) $(C_NAME)
 
-$(S_NAME): $(S_OBJECTS) $(LIBFT)/libft.a
-	$(CC) -o $(S_NAME) $(S_OBJECTS) $(LIB_FLAGS)
+$(NAME): $(S_OBJECTS) $(LIBFT)/libft.a
+	$(CC) -o $(NAME) $(S_OBJECTS) $(LIB_FLAGS)
 
 $(C_NAME): $(C_OBJECTS) $(LIBFT)/libft.a
 	$(CC) -o $(C_NAME) $(C_OBJECTS) $(LIB_FLAGS)
@@ -61,7 +61,7 @@ clean:
 	@$(RM) $(OBJ_DIR) $(BONUS_OBJ_DIR)
 
 fclean: clean
-	@$(RM) $(S_NAME) $(C_NAME) $(BS_NAME) $(BC_NAME)
+	@$(RM) $(NAME) $(C_NAME) $(BS_NAME) $(BC_NAME)
 
 re: fclean all
 

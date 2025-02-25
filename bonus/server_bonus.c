@@ -6,11 +6,11 @@
 /*   By: sohamdan <sohamdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:19:15 by sohamdan          #+#    #+#             */
-/*   Updated: 2025/02/11 15:50:13 by sohamdan         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:20:18 by sohamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minitalk.h"
+#include "minitalk.h"
 
 void	seperate_clients(char *word, int *counter)
 {
