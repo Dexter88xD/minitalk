@@ -6,7 +6,7 @@
 /*   By: sohamdan <sohamdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:12:08 by sohamdan          #+#    #+#             */
-/*   Updated: 2025/02/25 22:20:01 by sohamdan         ###   ########.fr       */
+/*   Updated: 2025/03/14 02:24:17 by sohamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,27 @@ void	reset_flag(int seg)
 		g_flag = 1;
 	if (seg == SIGUSR2)
 		write(STDOUT_FILENO, "\n>>Message recieved!<<\n", 23);
+}
+
+void	check_if_integer(char *input)
+{
+	int	i;
+
+	i = 0;
+	if (input[0] == '-' || input[0] == '\0')
+	{
+		ft_printf("Please provide a valid PID\n");
+		exit(EXIT_FAILURE);
+	}
+	while (input[i])
+	{
+		if (input[i] < '0' || input[i] > '9')
+		{
+			ft_printf("Please provide a valid PID\n");
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
 }
 
 int	send_message(int pid, char message)
@@ -40,7 +61,7 @@ int	send_message(int pid, char message)
 				return (ft_printf("No active process with this PID\n"), 1);
 		}
 		while (!g_flag)
-			pause();
+			;
 		g_flag = 0;
 		i--;
 	}
@@ -60,7 +81,10 @@ int	main(int ac, char **av)
 		signal(SIGUSR1, reset_flag);
 		signal(SIGUSR2, reset_flag);
 		i = 0;
+		check_if_integer(av[1]);
 		pid = ft_atoi(av[1]);
+		if (pid <= 0)
+			return (ft_printf("Please provide a valid PID\n"), 1);
 		message = av[2];
 		while (message[i])
 		{
@@ -68,7 +92,6 @@ int	main(int ac, char **av)
 				return (1);
 			i++;
 		}
-		usleep(50);
 		send_message(pid, '\0');
 	}
 	return (0);
