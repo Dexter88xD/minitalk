@@ -6,7 +6,7 @@
 /*   By: sohamdan <sohamdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:19:15 by sohamdan          #+#    #+#             */
-/*   Updated: 2025/02/25 22:20:18 by sohamdan         ###   ########.fr       */
+/*   Updated: 2025/03/19 09:25:54 by sohamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,19 @@ void	print_it_out(int seg, siginfo_t *info, void *nothing)
 		word = 0;
 		counter = 0;
 	}
-	kill(info->si_pid, SIGUSR1);
 	old_pid = info->si_pid;
+	kill(info->si_pid, SIGUSR1);
 	(void)nothing;
 }
 
 int	main(void)
 {
-	char				*sentence;
-	char				*process_id;
 	struct sigaction	msg;
 
 	msg.sa_sigaction = &print_it_out;
 	sigemptyset(&msg.sa_mask);
 	msg.sa_flags = SA_SIGINFO;
-	process_id = ft_itoa(getpid());
-	sentence = ft_strjoin("Server ID: ", process_id);
-	free(process_id);
-	write(STDOUT_FILENO, sentence, ft_strlen(sentence));
-	free(sentence);
-	write(STDOUT_FILENO, "\n", 1);
+	ft_printf("Server ID: %d\n", getpid());
 	sigaction(SIGUSR1, &msg, NULL);
 	sigaction(SIGUSR2, &msg, NULL);
 	while (1)
